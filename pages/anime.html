@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favorite Anime - Shaxzod Kalandarov</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎥</text></svg>">
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        .blog-hero {
+            padding: 120px 2rem 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 2rem auto 0;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 3rem 1rem 1.5rem;
+            border: 2px solid var(--border);
+            border-radius: 50px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+        }
+
+        .blog-filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .filter-tag {
+            padding: 0.75rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .blog-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px var(--shadow);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .blog-card:hover .blog-image {
+            transform: scale(1.1);
+        }
+
+        .blog-img-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .blog-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-meta {
+            display: flex;
+            gap: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .blog-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .blog-title a {
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .blog-title a:hover {
+            color: var(--accent);
+        }
+
+        .blog-excerpt {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            flex: 1;
+        }
+
+        .blog-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+
+        .blog-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .read-more {
+            color: var(--accent);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        .featured-post {
+            grid-column: 1 / -1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: var(--card-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+        }
+
+        .featured-post .blog-img-container {
+            height: 100%;
+        }
+
+        .featured-post .blog-image {
+            height: 100%;
+        }
+
+        .featured-post .blog-content {
+            padding: 3rem;
+            justify-content: center;
+        }
+
+        .featured-post .blog-title {
+            font-size: 2.5rem;
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-top: 4rem;
+        }
+
+        .page-btn {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--border);
+            background: var(--bg-primary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover,
+        .page-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        .newsletter {
+            background: linear-gradient(135deg, var(--accent), #8b5cf6);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .newsletter h3 {
+            color: white;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .newsletter p {
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .newsletter-form {
+            display: flex;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+
+        .newsletter-btn {
+            padding: 1rem 2rem;
+            background: white;
+            color: var(--accent);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .newsletter-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 968px) {
+            .featured-post {
+                grid-template-columns: 1fr;
+            }
+
+            .featured-post .blog-content {
+                padding: 2rem;
+            }
+
+            .featured-post .blog-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">🎓 IUT</a>
+            
+            <ul class="nav-menu">
+                <li><a href="../index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="schedule.html" class="nav-link">Schedule</a></li>
+                <li><a href="anime.html" class="nav-link active">Anime</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+
+            <button class="theme-toggle" aria-label="Toggle theme">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                </svg>
+            </button>
+
+            <button class="mobile-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Anime Hero -->
+    <section class="blog-hero">
+        <h1 class="section-title">🎬 My Favorite Anime</h1>
+        <p class="section-subtitle">Stories that inspire, teach, and make me think about life</p>
+        
+        <div class="search-bar">
+            <input type="text" class="search-input" placeholder="Search anime..." id="searchInput">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21l-4.35-4.35"/>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Anime Filters -->
+    <section class="container">
+        <div class="blog-filters">
+            <button class="filter-tag active" data-category="all">All Anime</button>
+            <button class="filter-tag" data-category="tutorial">Adventure</button>
+            <button class="filter-tag" data-category="javascript">Fantasy</button>
+            <button class="filter-tag" data-category="react">Sci-Fi</button>
+            <button class="filter-tag" data-category="design">Drama</button>
+            <button class="filter-tag" data-category="career">Action</button>
+        </div>
+
+        <!-- Anime Grid -->
+        <div class="blog-grid" id="blogGrid">
+            <!-- Featured Anime -->
+            <article class="featured-post" data-category="tutorial">
+                <div class="blog-img-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BMzZhYzAzODUtMzYxMi00OWE1LWI4ZTQtYzU4ZjgxZjcxODA3XkEyXkFqcGc@._V1_.jpg" alt="To Your Eternity" class="blog-image">
+                </div>
+                <div class="blog-content">
+                    <span class="featured-badge">⭐ Top Favorite</span>
+                    <h2 class="blog-title">
+                        <a href="#">🌟 To Your Eternity (不滅のあなたへ)</a>
+                    </h2>
+                    <div class="blog-meta">
+                        <span class="blog-meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                            2021-2024
+                        </span>
+                        <span class="blog-meta-item">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                            2 Seasons
+                        </span>
+                    </div>
+                    <p class="blog-excerpt">An immortal being is sent to Earth to observe humanity. It learns about life, death, and what it means to be human through the people it meets. This anime explores deep themes of mortality, love, and the human experience. It makes me think about the value of life and cherishing every moment.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Adventure</span>
+                        <span class="blog-tag">Drama</span>
+                        <span class="blog-tag">Fantasy</span>
+                        <span class="blog-tag">Philosophy</span>
+                    </div>
+                    <a href="https://myanimelist.net/anime/41025/Fumetsu_no_Anata_e" target="_blank" class="read-more">
+                        View on MAL
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <!-- Other Favorite Anime -->
+            <article class="blog-card" data-category="javascript">
+                <div class="blog-img-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BYzZkYjM1MWMtNTY3Mi00MTMzLTlhNmQtN2ExZjFkYzdjZmFjXkEyXkFqcGc@._V1_.jpg" alt="Dr. Stone" class="blog-image">
+                    <span class="blog-category">Sci-Fi</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-meta-item">2019-2023</span>
+                        <span class="blog-meta-item">3 Seasons</span>
+                    </div>
+                    <h3 class="blog-title">
+                        <a href="#">🔬 Dr. Stone (ドクターストーン)</a>
+                    </h3>
+                    <p class="blog-excerpt">Humanity is mysteriously turned to stone, and thousands of years later, a genius scientist must rebuild civilization from scratch using science. Shows how science and persistence can overcome any challenge.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Sci-Fi</span>
+                        <span class="blog-tag">Adventure</span>
+                        <span class="blog-tag">Science</span>
+                    </div>
+                    <a href="https://myanimelist.net/anime/38691/Dr_Stone" target="_blank" class="read-more">
+                        View on MAL
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="react">
+                <div class="blog-img-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BZTI4ZGMxN2UtODlkYS00MTBjLWE1YzctYzc3NDViMGI0ZmJmXkEyXkFqcGc@._V1_.jpg" alt="Frieren" class="blog-image">
+                    <span class="blog-category">Fantasy</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-meta-item">2023-2024</span>
+                        <span class="blog-meta-item">1 Season</span>
+                    </div>
+                    <h3 class="blog-title">
+                        <a href="#">⚔️ Frieren: Beyond Journey's End (葬送のフリーレン)</a>
+                    </h3>
+                    <p class="blog-excerpt">After defeating the demon king, an elf mage reflects on her journey and the fleeting nature of human life. Teaches about appreciating time with loved ones before it's too late.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Fantasy</span>
+                        <span class="blog-tag">Drama</span>
+                        <span class="blog-tag">Adventure</span>
+                    </div>
+                    <a href="https://myanimelist.net/anime/52991/Sousou_no_Frieren" target="_blank" class="read-more">
+                        View on MAL
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="design">
+                <div class="blog-img-container">
+                    <img src="https://m.media-amazon.com/images/M/MV5BYWFhOWMxNTYtZThiMi00ZmQ5LTlmODktN2QwNzUyZjMyZGQzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Dandadan" class="blog-image">
+                    <span class="blog-category">Action</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-meta-item">2024</span>
+                        <span class="blog-meta-item">1 Season</span>
+                    </div>
+                    <h3 class="blog-title">
+                        <a href="#">👻 Dandadan (ダンダダン)</a>
+                    </h3>
+                    <p class="blog-excerpt">A wild mix of aliens, ghosts, and supernatural adventures. Two high schoolers discover that both aliens and ghosts exist. It's fast-paced, funny, and full of unexpected moments that keep me entertained.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Action</span>
+                        <span class="blog-tag">Comedy</span>
+                        <span class="blog-tag">Supernatural</span>
+                    </div>
+                    <a href="https://myanimelist.net/anime/55496/Dandadan" target="_blank" class="read-more">
+                        View on MAL
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="career">
+                <div class="blog-img-container">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=500&fit=crop" alt="Career Tips" class="blog-image">
+                    <span class="blog-category">Career</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-meta-item">Dec 28, 2023</span>
+                        <span class="blog-meta-item">7 min read</span>
+                    </div>
+                    <h3 class="blog-title">
+                        <a href="#">How to Stand Out as a Junior Developer</a>
+                    </h3>
+                    <p class="blog-excerpt">Practical advice for junior developers looking to grow their skills and advance their careers.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">Career</span>
+                        <span class="blog-tag">Advice</span>
+                    </div>
+                    <a href="#" class="read-more">
+                        Read More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+
+            <article class="blog-card" data-category="javascript">
+                <div class="blog-img-container">
+                    <img src="https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=800&h=500&fit=crop" alt="Async JavaScript" class="blog-image">
+                    <span class="blog-category">JavaScript</span>
+                </div>
+                <div class="blog-content">
+                    <div class="blog-meta">
+                        <span class="blog-meta-item">Dec 25, 2023</span>
+                        <span class="blog-meta-item">9 min read</span>
+                    </div>
+                    <h3 class="blog-title">
+                        <a href="#">Understanding Async/Await in JavaScript</a>
+                    </h3>
+                    <p class="blog-excerpt">A comprehensive guide to asynchronous programming in JavaScript using async/await syntax.</p>
+                    <div class="blog-tags">
+                        <span class="blog-tag">JavaScript</span>
+                        <span class="blog-tag">Async</span>
+                    </div>
+                    <a href="#" class="read-more">
+                        Read More
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <button class="page-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn">4</button>
+            <button class="page-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 18l6-6-6-6"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Why I Love Anime -->
+        <div class="newsletter">
+            <h3>🎌 Why I Love Anime</h3>
+            <p>Anime teaches me valuable life lessons through captivating stories. They explore philosophy, science, human nature, and the beauty of existence. Each series offers a unique perspective on life, friendship, and perseverance that helps me grow as a person.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <h3>Shaxzod Kalandarov</h3>
+            <p style="color: var(--text-secondary); margin: 1rem 0;">Computer Science Student at Inha University</p>
+            
+            <div class="social-links">
+                <a href="https://github.com/Roicalus" class="social-link" aria-label="GitHub" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                </a>
+                <a href="https://linkedin.com" class="social-link" aria-label="LinkedIn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                </a>
+                <a href="https://t.me/Roicaluste" class="social-link" aria-label="Telegram" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">© 2024 John Doe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+    <script>
+        // Blog Filter
+        const filterTags = document.querySelectorAll('.filter-tag');
+        const blogCards = document.querySelectorAll('.blog-card, .featured-post');
+        
+        filterTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                const category = tag.dataset.category;
+                
+                filterTags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
+                
+                blogCards.forEach(card => {
+                    if (category === 'all' || card.dataset.category === category) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            blogCards.forEach(card => {
+                const title = card.querySelector('.blog-title a').textContent.toLowerCase();
+                const excerpt = card.querySelector('.blog-excerpt').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+
+        // Newsletter Form
+        document.querySelector('.newsletter-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = e.target.querySelector('.newsletter-input').value;
+            alert(`Thank you for subscribing with: ${email}`);
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

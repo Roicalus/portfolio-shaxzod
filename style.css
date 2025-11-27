@@ -1,0 +1,1713 @@
+/* ==========================================
+   RESET & BASE STYLES
+   ========================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /* Light Theme */
+    --bg-primary: #f8f9fa;
+    --bg-secondary: #ffffff;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --accent: #399dcb;
+    --accent-hover: #2d8bb3;
+    --border: #dee2e6;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --card-bg: #ffffff;
+    --hero-overlay: rgba(57, 157, 203, 0.85);
+}
+
+body:has(#theme-toggle:checked) {
+    /* Dark Theme */
+    --bg-primary: #0a1929;
+    --bg-secondary: #1a2332;
+    --text-primary: #e3e8ef;
+    --text-secondary: #9ca3af;
+    --accent: #6ad5eb;
+    --accent-hover: #8bdff1;
+    --border: #2d3748;
+    --shadow: rgba(0, 0, 0, 0.3);
+    --card-bg: #1a2332;
+    --hero-overlay: rgba(26, 35, 50, 0.9);
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 90px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    transition: background 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+/* ==========================================
+   SCROLL TO TOP BUTTON
+   ========================================== */
+
+.scroll-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 50px;
+    height: 50px;
+    background: var(--accent);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 20px var(--shadow);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 1000;
+    text-decoration: none;
+    animation: fadeInButton 1s ease 2s both;
+}
+
+.scroll-to-top:hover {
+    background: var(--accent-hover);
+    transform: translateY(-5px) scale(1.1);
+    box-shadow: 0 8px 30px var(--shadow);
+}
+
+.scroll-to-top svg {
+    width: 24px;
+    height: 24px;
+    color: white;
+}
+
+
+
+/* ==========================================
+   NAVIGATION BAR
+   ========================================== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px var(--shadow);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+body:has(#theme-toggle:checked) .navbar {
+    background: rgba(26, 35, 50, 0.95);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    justify-content: center;
+}
+
+.nav-menu li {
+    margin: 0;
+}
+
+.nav-menu a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    display: block;
+}
+
+.nav-menu a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.nav-menu a:hover {
+    color: var(--accent);
+    transform: translateY(-2px);
+}
+
+.nav-menu a:hover::before {
+    width: 80%;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.logo:hover {
+    transform: scale(1.15) rotate(360deg);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.theme-switcher {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    background: var(--accent);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.theme-switcher:hover {
+    transform: scale(1.15) rotate(15deg);
+    background: var(--accent-hover);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.sun-icon,
+.moon-icon {
+    width: 24px;
+    height: 24px;
+    color: white;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sun-icon {
+    position: absolute;
+    opacity: 1;
+}
+
+.moon-icon {
+    position: absolute;
+    opacity: 0;
+}
+
+#theme-toggle:checked ~ .navbar .sun-icon {
+    opacity: 0;
+    transform: rotate(90deg);
+}
+
+#theme-toggle:checked ~ .navbar .moon-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+}
+
+/* ==========================================
+   HERO SECTION
+   ========================================== */
+
+.hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: url('https://sneg.top/uploads/posts/2023-03/1680087654_sneg-top-p-oboi-faervotch-instagram-4.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    z-index: -1;
+    transition: opacity 0.5s ease;
+}
+
+body:has(#theme-toggle:checked) .hero::before {
+    background-image: url('https://image.fonwall.ru/o/gn/figure-forest-tower.jpg');
+}
+
+.hero::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(135deg, rgba(57, 157, 203, 0.7) 0%, rgba(45, 139, 179, 0.7) 100%);
+    z-index: -1;
+}
+
+.hero-bg {
+    display: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: white;
+    padding: 2rem;
+}
+
+.hero-title {
+    font-size: clamp(3rem, 8vw, 6rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease;
+}
+
+.hero-subtitle {
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    font-weight: 300;
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 1s ease 0.3s both;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator span {
+    display: block;
+    width: 30px;
+    height: 50px;
+    border: 2px solid white;
+    border-radius: 25px;
+    position: relative;
+}
+
+.scroll-indicator span::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: scroll 2s infinite;
+}
+
+/* Floating Shapes */
+.floating-shapes {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 10%;
+    animation: float 20s infinite ease-in-out;
+}
+
+.shape-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: 15%;
+    animation: float 15s infinite ease-in-out reverse;
+}
+
+.shape-3 {
+    width: 150px;
+    height: 150px;
+    bottom: 15%;
+    left: 50%;
+    animation: float 18s infinite ease-in-out;
+}
+
+/* ==========================================
+   MAIN CONTAINER
+   ========================================== */
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    height: 100%;
+    background: var(--bg-primary);
+    z-index: -1;
+}
+
+.section {
+    margin-bottom: 4rem;
+    animation: fadeInUp 0.8s ease;
+}
+
+.section-title {
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+    border-radius: 2px;
+}
+
+.card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px var(--shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px var(--shadow);
+}
+
+/* ==========================================
+   ABOUT SECTION
+   ========================================== */
+
+.about-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+.about-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================
+   SCHEDULE SECTION
+   ========================================== */
+
+.tabs input[type="radio"] {
+    display: none;
+}
+
+.tab-labels {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.tab-label {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid transparent;
+}
+
+.tab-label:hover {
+    background: var(--accent);
+    color: white;
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 6px 20px var(--shadow);
+}
+
+#monday:checked ~ .tab-labels label[for="monday"],
+#tuesday:checked ~ .tab-labels label[for="tuesday"],
+#wednesday:checked ~ .tab-labels label[for="wednesday"],
+#thursday:checked ~ .tab-labels label[for="thursday"] {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+}
+
+.tab-content {
+    position: relative;
+}
+
+.tab-pane {
+    display: none;
+}
+
+#monday:checked ~ .tab-content #monday-content,
+#tuesday:checked ~ .tab-content #tuesday-content,
+#wednesday:checked ~ .tab-content #wednesday-content,
+#thursday:checked ~ .tab-content #thursday-content {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+.schedule-item {
+    display: flex;
+    align-items: center;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background: var(--bg-primary);
+    border-radius: 12px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.schedule-item::before {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    transition: left 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: -1;
+}
+
+.schedule-item:hover {
+    transform: scale(1.05);
+    color: white;
+    box-shadow: 0 8px 30px var(--shadow);
+}
+
+.schedule-item:hover::before {
+    left: 0;
+}
+
+.schedule-item:last-child {
+    margin-bottom: 0;
+}
+
+.schedule-item .time {
+    font-weight: 700;
+    font-size: 1rem;
+    min-width: 120px;
+    color: var(--accent);
+}
+
+.schedule-item:hover .time {
+    color: white;
+}
+
+.schedule-item .course {
+    font-size: 1.1rem;
+}
+
+/* ==========================================
+   ANIME SECTION
+   ========================================== */
+
+.anime-slider input[type="radio"] {
+    display: none;
+}
+
+.anime-slides {
+    position: relative;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+.anime-slide {
+    display: none;
+    grid-template-columns: minmax(280px, 400px) 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    height: 100%;
+}
+
+#anime1:checked ~ .anime-slides .anime-slide:nth-child(1),
+#anime2:checked ~ .anime-slides .anime-slide:nth-child(2),
+#anime3:checked ~ .anime-slides .anime-slide:nth-child(3),
+#anime4:checked ~ .anime-slides .anime-slide:nth-child(4) {
+    display: grid;
+    animation: fadeIn 0.5s ease;
+}
+
+.anime-slide img {
+    width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px var(--shadow);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.anime-slide img:hover {
+    transform: scale(1.05) rotate(2deg);
+    box-shadow: 0 12px 40px var(--shadow);
+}
+
+.anime-info {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.anime-info h3 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.anime-info p {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 1.25rem;
+}
+
+.anime-info p:last-child {
+    margin-bottom: 0;
+}
+
+/* Anime Navigation Controls */
+
+.anime-controls {
+    margin-top: 2.5rem;
+}
+
+.anime-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.anime-nav label {
+    padding: 0.75rem 2rem;
+    background: var(--accent);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    display: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.anime-nav label::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translate(-50%, -50%);
+    transition: width 0.4s ease, height 0.4s ease;
+}
+
+.anime-nav label:hover {
+    background: var(--accent-hover);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px var(--shadow);
+}
+
+.anime-nav label:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.anime1-ctrl { display: none; }
+.anime2-ctrl { display: none; }
+.anime3-ctrl { display: none; }
+.anime4-ctrl { display: none; }
+
+#anime1:checked ~ .anime-controls .anime-nav .anime1-ctrl,
+#anime2:checked ~ .anime-controls .anime-nav .anime2-ctrl,
+#anime3:checked ~ .anime-controls .anime-nav .anime3-ctrl,
+#anime4:checked ~ .anime-controls .anime-nav .anime4-ctrl {
+    display: inline-block;
+}
+
+/* Anime Dots Indicator */
+
+.anime-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--border);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.dot:hover {
+    background: var(--accent);
+    transform: scale(1.5);
+    box-shadow: 0 0 10px var(--accent);
+}
+
+#anime1:checked ~ .anime-controls .anime-dots label:nth-child(1),
+#anime2:checked ~ .anime-controls .anime-dots label:nth-child(2),
+#anime3:checked ~ .anime-controls .anime-dots label:nth-child(3),
+#anime4:checked ~ .anime-controls .anime-dots label:nth-child(4) {
+    background: var(--accent);
+    transform: scale(1.3);
+    animation: pulse 2s infinite;
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
+
+.footer {
+    background: var(--bg-primary);
+    color: var(--text-secondary);
+    border-top: 1px solid var(--border);
+    margin-top: 0;
+    position: relative;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2.5rem;
+}
+
+.footer-section h3 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.footer-section p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: inline-block;
+    position: relative;
+}
+
+.footer-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+    transform: scale(1.1);
+}
+
+.footer-links a:hover::after {
+    width: 100%;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+}
+
+.footer-bottom p {
+    margin: 0;
+}
+
+/* ==========================================
+   ANIMATIONS
+   ========================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        transform: translateX(-50%) translateY(-20px);
+    }
+    60% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+}
+
+@keyframes scroll {
+    0% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(0);
+    }
+    40% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 0;
+        transform: translateX(-50%) translateY(20px);
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    33% {
+        transform: translate(30px, -30px) rotate(120deg);
+    }
+    66% {
+        transform: translate(-20px, 20px) rotate(240deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+@keyframes fadeInButton {
+    from {
+        opacity: 0;
+        transform: translateY(50px) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1400px;
+        padding: 5rem 3rem;
+    }
+
+    .hero-title {
+        font-size: 6.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 2rem;
+    }
+
+    .section-title {
+        font-size: 3rem;
+    }
+
+    .card {
+        padding: 3rem;
+    }
+
+    .anime-slide {
+        gap: 3.5rem;
+    }
+
+    .anime-slide img {
+        max-height: 600px;
+    }
+}
+
+/* Desktop (1024px - 1399px) */
+@media (min-width: 1024px) and (max-width: 1399px) {
+    .container {
+        max-width: 1140px;
+        padding: 4rem 2rem;
+    }
+
+    .anime-slide {
+        grid-template-columns: minmax(280px, 380px) 1fr;
+        gap: 2.5rem;
+    }
+}
+
+/* Tablet Landscape (900px - 1023px) */
+@media (min-width: 900px) and (max-width: 1023px) {
+    .container {
+        max-width: 960px;
+        padding: 3rem 2rem;
+    }
+
+    .hero-title {
+        font-size: 4.5rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .anime-slide {
+        grid-template-columns: minmax(260px, 340px) 1fr;
+        gap: 2rem;
+    }
+
+    .anime-slide img {
+        max-height: 480px;
+    }
+
+    .anime-info h3 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Tablet Portrait (768px - 899px) */
+@media (min-width: 768px) and (max-width: 899px) {
+    .container {
+        max-width: 720px !important;
+        padding: 3rem 1.5rem !important;
+    }
+
+    .hero-title {
+        font-size: 3.5rem !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem !important;
+    }
+
+    .section-title {
+        font-size: 2rem !important;
+    }
+
+    .card {
+        padding: 2rem !important;
+    }
+
+    .anime-slide {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .anime-slide img {
+        max-height: 450px;
+        max-width: 340px;
+        margin: 0 auto;
+    }
+
+    .anime-info h3 {
+        font-size: 1.8rem;
+        text-align: center;
+    }
+
+    .tab-label {
+        padding: 0.7rem 1.2rem;
+        font-size: 0.95rem;
+    }
+
+    .schedule-item {
+        padding: 1rem;
+    }
+}
+
+/* Mobile Landscape & Small Tablet (600px - 767px) */
+@media (min-width: 600px) and (max-width: 767px) {
+    .nav-container {
+        padding: 0.875rem 1.5rem !important;
+        gap: 1rem !important;
+    }
+
+    .nav-menu {
+        gap: 1rem !important;
+    }
+
+    .nav-menu a {
+        font-size: 0.9rem !important;
+        padding: 0.4rem 0.75rem !important;
+    }
+
+    .logo {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .theme-switcher {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .sun-icon,
+    .moon-icon {
+        width: 22px !important;
+        height: 22px !important;
+    }
+
+    .hero-title {
+        font-size: 2.8rem !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1.1rem !important;
+    }
+
+    .container {
+        padding: 2.5rem 1.5rem !important;
+    }
+
+    .section {
+        margin-bottom: 3rem !important;
+    }
+
+    .section-title {
+        font-size: 1.9rem !important;
+    }
+
+    .card {
+        padding: 1.75rem !important;
+    }
+
+    .about-content p {
+        font-size: 1.05rem;
+    }
+
+    .tab-labels {
+        gap: 0.4rem;
+    }
+
+    .tab-label {
+        font-size: 0.85rem;
+        padding: 0.65rem 0.9rem;
+        min-width: 90px;
+    }
+
+    .schedule-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        padding: 1rem;
+    }
+
+    .schedule-item .time {
+        min-width: auto;
+        font-size: 0.95rem;
+    }
+
+    .schedule-item .course {
+        font-size: 1.05rem;
+    }
+
+    .anime-slide {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+    }
+
+    .anime-slide img {
+        max-height: 420px;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .anime-info {
+        text-align: center;
+    }
+
+    .anime-info h3 {
+        font-size: 1.7rem;
+    }
+
+    .anime-info p {
+        font-size: 1rem;
+    }
+
+    .anime-nav label {
+        padding: 0.65rem 1.3rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile Portrait (480px - 599px) */
+@media (min-width: 480px) and (max-width: 599px) {
+    .nav-container {
+        padding: 0.75rem 1rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.75rem !important;
+    }
+
+    .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: space-around !important;
+        gap: 0.5rem !important;
+    }
+
+    .nav-menu a {
+        font-size: 0.85rem !important;
+        padding: 0.4rem 0.6rem !important;
+    }
+
+    .logo {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .theme-switcher {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .sun-icon,
+    .moon-icon {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .hero {
+        height: 80vh !important;
+    }
+
+    .hero-title {
+        font-size: 2.2rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+
+    .hero-content {
+        padding: 1.5rem !important;
+    }
+
+    .container {
+        padding: 2rem 1.25rem !important;
+    }
+
+    .section {
+        margin-bottom: 2.5rem !important;
+    }
+
+    .section-title {
+        font-size: 1.75rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+
+    .card {
+        padding: 1.5rem !important;
+        border-radius: 12px !important;
+    }
+
+    .about-content p {
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .tab-labels {
+        gap: 0.4rem !important;
+        flex-direction: column !important;
+    }
+
+    .tab-label {
+        font-size: 0.9rem !important;
+        padding: 0.7rem 1rem !important;
+        min-width: 100% !important;
+    }
+
+    .schedule-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.4rem !important;
+        padding: 0.9rem !important;
+    }
+
+    .schedule-item .time {
+        min-width: auto !important;
+        font-size: 0.9rem !important;
+    }
+
+    .schedule-item .course {
+        font-size: 1rem !important;
+    }
+
+    .anime-slide {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .anime-slide img {
+        max-height: 380px;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+
+    .anime-info {
+        text-align: center;
+    }
+
+    .anime-info h3 {
+        font-size: 1.6rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .anime-info p {
+        font-size: 0.95rem !important;
+        line-height: 1.7 !important;
+    }
+
+    .anime-nav {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+
+    .anime-nav label {
+        padding: 0.7rem 1.5rem !important;
+        font-size: 0.9rem !important;
+        text-align: center !important;
+    }
+
+    .anime-controls {
+        margin-top: 1.75rem;
+    }
+
+    .anime-nav {
+        margin-bottom: 1.25rem;
+    }
+
+    .dot {
+        width: 10px;
+        height: 10px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr !important;
+        gap: 1.75rem !important;
+        padding: 2rem 1.25rem !important;
+    }
+
+    .footer-section h3 {
+        font-size: 1.15rem !important;
+    }
+
+    .footer-section p,
+    .footer-links a {
+        font-size: 0.9rem !important;
+    }
+
+    .footer-bottom {
+        padding: 1.25rem 1.25rem !important;
+        font-size: 0.85rem !important;
+    }
+}
+
+/* Small Mobile (360px - 479px) */
+@media (min-width: 360px) and (max-width: 479px) {
+    .nav-container {
+        padding: 0.625rem 0.875rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.625rem !important;
+    }
+
+    .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: space-around !important;
+        gap: 0.25rem !important;
+    }
+
+    .nav-menu a {
+        font-size: 0.8rem !important;
+        padding: 0.35rem 0.5rem !important;
+    }
+
+    .logo {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .theme-switcher {
+        width: 38px !important;
+        height: 38px !important;
+    }
+
+    .sun-icon,
+    .moon-icon {
+        width: 18px !important;
+        height: 18px !important;
+    }
+
+    .hero {
+        height: 75vh !important;
+    }
+
+    .hero-title {
+        font-size: 1.9rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem !important;
+    }
+
+    .hero-content {
+        padding: 1.25rem !important;
+    }
+
+    .container {
+        padding: 1.75rem 1rem !important;
+    }
+
+    .container::before {
+        width: 100vw !important;
+    }
+
+    .section {
+        margin-bottom: 2.25rem !important;
+    }
+
+    .section-title {
+        font-size: 1.6rem !important;
+        margin-bottom: 1.25rem !important;
+    }
+
+    .card {
+        padding: 1.25rem !important;
+        border-radius: 10px !important;
+    }
+
+    .about-content p {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        margin-bottom: 1.25rem;
+    }
+
+    .tab-labels {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .tab-label {
+        font-size: 0.875rem !important;
+        padding: 0.65rem 0.875rem !important;
+        min-width: 100% !important;
+    }
+
+    .schedule-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.4rem !important;
+        padding: 0.875rem !important;
+    }
+
+    .schedule-item .time {
+        min-width: auto !important;
+        font-size: 0.875rem !important;
+        font-weight: 700 !important;
+    }
+
+    .schedule-item .course {
+        font-size: 0.95rem !important;
+    }
+
+    .anime-slide {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .anime-slide img {
+        max-height: 350px;
+        max-width: 260px;
+        margin: 0 auto;
+    }
+
+    .anime-info {
+        text-align: center;
+    }
+
+    .anime-info h3 {
+        font-size: 1.45rem !important;
+        margin-bottom: 0.875rem !important;
+    }
+
+    .anime-info p {
+        font-size: 0.9rem !important;
+        line-height: 1.65 !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .anime-nav {
+        flex-direction: column !important;
+        gap: 0.625rem !important;
+    }
+
+    .anime-nav label {
+        padding: 0.625rem 1.25rem !important;
+        font-size: 0.875rem !important;
+        text-align: center !important;
+    }
+
+    .anime-controls {
+        margin-top: 1.5rem;
+    }
+
+    .anime-nav {
+        margin-bottom: 1rem;
+    }
+
+    .dot {
+        width: 9px;
+        height: 9px;
+    }
+
+    .footer {
+        padding: 1.5rem 1rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Extra Small Mobile (< 360px) */
+@media (max-width: 359px) {
+    .nav-container {
+        padding: 0.5rem 0.75rem !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+    }
+
+    .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: space-around !important;
+        gap: 0.2rem !important;
+        flex-wrap: wrap;
+    }
+
+    .nav-menu a {
+        font-size: 0.75rem !important;
+        padding: 0.3rem 0.4rem !important;
+    }
+
+    .logo {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .theme-switcher {
+        width: 35px !important;
+        height: 35px !important;
+    }
+
+    .sun-icon,
+    .moon-icon {
+        width: 16px !important;
+        height: 16px !important;
+    }
+
+    .hero {
+        height: 70vh !important;
+    }
+
+    .hero-title {
+        font-size: 1.6rem !important;
+        line-height: 1.2 !important;
+    }
+
+    .hero-subtitle {
+        font-size: 0.85rem !important;
+    }
+
+    .hero-content {
+        padding: 1rem !important;
+    }
+
+    .container {
+        padding: 1.5rem 0.875rem !important;
+    }
+
+    .section {
+        margin-bottom: 2rem !important;
+    }
+
+    .section-title {
+        font-size: 1.4rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .card {
+        padding: 1rem !important;
+        border-radius: 8px !important;
+    }
+
+    .about-content p {
+        font-size: 0.875rem;
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .tab-labels {
+        flex-direction: column !important;
+        gap: 0.4rem !important;
+    }
+
+    .tab-label {
+        font-size: 0.8rem !important;
+        padding: 0.6rem 0.75rem !important;
+        min-width: 100% !important;
+    }
+
+    .schedule-item {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 0.3rem !important;
+        padding: 0.75rem !important;
+    }
+
+    .schedule-item .time {
+        min-width: auto !important;
+        font-size: 0.8rem !important;
+    }
+
+    .schedule-item .course {
+        font-size: 0.875rem !important;
+    }
+
+    .anime-slide {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .anime-slide img {
+        max-height: 320px;
+        max-width: 240px;
+        margin: 0 auto;
+    }
+
+    .anime-info {
+        text-align: center;
+    }
+
+    .anime-info h3 {
+        font-size: 1.3rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+
+    .anime-info p {
+        font-size: 0.85rem !important;
+        line-height: 1.6 !important;
+        margin-bottom: 0.875rem !important;
+    }
+
+    .anime-nav {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+
+    .anime-nav label {
+        padding: 0.55rem 1rem !important;
+        font-size: 0.8rem !important;
+        text-align: center !important;
+    }
+
+    .anime-controls {
+        margin-top: 1.25rem;
+    }
+
+    .anime-nav {
+        margin-bottom: 0.875rem;
+    }
+
+    .dot {
+        width: 8px;
+        height: 8px;
+    }
+
+    .footer-content {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important;
+        padding: 2rem 0.875rem !important;
+    }
+
+    .footer-section h3 {
+        font-size: 1.1rem !important;
+    }
+
+    .footer-section p,
+    .footer-links a {
+        font-size: 0.85rem !important;
+    }
+
+    .footer-bottom {
+        padding: 1.25rem 0.875rem !important;
+        font-size: 0.8rem !important;
+    }
+}
+
+/* Landscape Orientation Fix for Mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+    .hero {
+        height: 100vh;
+    }
+
+    .hero-title {
+        font-size: 2rem;
+    }
+
+    .hero-subtitle {
+        font-size: 0.9rem;
+    }
+
+    .container {
+        padding: 2rem 1rem;
+    }
+
+    .section {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .tab-label,
+    .anime-nav label,
+    .dot,
+    .theme-switcher,
+    .logo {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .tab-label {
+        padding: 0.75rem 1rem;
+    }
+
+    .schedule-item:hover {
+        transform: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+}
